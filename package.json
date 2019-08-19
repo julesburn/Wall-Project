@@ -4,7 +4,7 @@
   "description": "A wall for posting and commenting",
   "main": "src/server.js",
   "scripts": {
-    "test": "set NODE_ENV=test && jasmine",
+    "test": "set NODE_ENV=test&& jasmine",
     "start": "node src/server.js"
   },
   "repository": {
