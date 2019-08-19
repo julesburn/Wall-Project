@@ -4,7 +4,8 @@
   "description": "A wall for posting and commenting",
   "main": "src/server.js",
   "scripts": {
-    "test": "export NODE_ENV=test&& jasmine"
+    "test": "set NODE_ENV=test && jasmine",
+    "start": "node src/server.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,13 @@
   "bugs": {
     "url": "https://github.com/julesburn/Wall-Project/issues"
   },
-  "homepage": "https://github.com/julesburn/Wall-Project#readme"
+  "homepage": "https://github.com/julesburn/Wall-Project#readme",
+  "devDependencies": {
+    "jasmine": "^3.4.0",
+    "request": "^2.88.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.1"
+  }
 }
