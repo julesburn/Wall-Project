@@ -8,13 +8,12 @@ describe("routes : static", () => {
   describe("GET /", () => {
 
 //#2
-    it("should return status code 200", (done) => {
+it("should return status code 200 and have 'Welcome to the Wall' in the body of the response", (done) => {
+  request.get(base, (err, res, body) => {
+    expect(res.statusCode).toBe(200);
+    expect(body).toContain("Welcome to the Wall");
 
 //#3
-      request.get(base, (err, res, body) => {
-        expect(res.statusCode).toBe(200);
-
-//#4
         done();
       });
     });
