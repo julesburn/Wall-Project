@@ -1,0 +1,22 @@
+{
+  "name": "wall",
+  "version": "1.0.0",
+  "description": "A wall for posting and commenting",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "export NODE_ENV=test&& jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julesburn/Wall-Project.git"
+  },
+  "keywords": [
+    "wall"
+  ],
+  "author": "C Benson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julesburn/Wall-Project/issues"
+  },
+  "homepage": "https://github.com/julesburn/Wall-Project#readme"
+}
