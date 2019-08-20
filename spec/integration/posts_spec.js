@@ -81,5 +81,76 @@ describe("routes : posts", () => {
       });
     });
 
+    describe("GET /posts/:id", () => {
+
+      it("should render a view with the selected post", (done) => {
+        request.get(`${base}${this.post.id}`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Posts");
+          done();
+        });
+      });
+    });
+
+    describe("POST /posts/:id/destroy", () => {
+
+      it("should delete the post with the associated ID", (done) => {
+ 
+        Post.findAll()
+        .then((posts) => {
+ 
+          const postCountBeforeDelete = posts.length;
+ 
+          expect(postCountBeforeDelete).toBe(1);
+ 
+          request.post(`${base}${this.post.id}/destroy`, (err, res, body) => {
+            Post.findAll()
+            .then((posts) => {
+              expect(err).toBeNull();
+              expect(posts.length).toBe(postCountBeforeDelete - 1);
+              done();
+            })
+          });
+        });
+      });
+    });
+
+    describe("GET /posts/:id/edit", () => {
+
+      it("should render a view with an edit post form", (done) => {
+        request.get(`${base}${this.post.id}/edit`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Edit Post");
+          expect(body).toContain("Posts");
+          done();
+        });
+      });
+    });
+    
+    describe("POST /posts/:id/update", () => {
+
+      it("should update the post with the given values", (done) => {
+         const options = {
+            url: `${base}${this.post.id}/update`,
+            form: {
+              title: "JavaScript Frameworks",
+              description: "There are a lot of them"
+            }
+          };
+          request.post(options,
+            (err, res, body) => {
+ 
+            expect(err).toBeNull();
+            Post.findOne({
+              where: { id: this.post.id }
+            })
+            .then((post) => {
+              expect(post.title).toBe("JavaScript Frameworks");
+              done();
+            });
+          });
+      });
+    });
+
   });
 });
