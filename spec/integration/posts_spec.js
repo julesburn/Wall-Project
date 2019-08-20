@@ -49,5 +49,37 @@ describe("routes : posts", () => {
       });
     });
 
+    describe("POST /posts/create", () => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          title: "The Best Post",
+          body: "This is the best post!"
+        }
+      };
+
+      it("should create a new post and redirect", (done) => {
+
+
+        request.post(options,
+
+
+          (err, res, body) => {
+            Post.findOne({where: {title: "The Best Post"}})
+            .then((post) => {
+              expect(res.statusCode).toBe(303);
+              expect(post.title).toBe("The Best Post");
+              expect(post.body).toBe("This is the best post!");
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
+          }
+        );
+      });
+    });
+
   });
 });

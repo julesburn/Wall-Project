@@ -11,5 +11,18 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
+  },
+
+  addPost(newPost, callback){
+    return Post.create({
+      title: newPost.title,
+      body: newPost.body
+    })
+    .then((post) => {
+      callback(null, post);
+    })
+    .catch((err) => {
+      callback(err);
+    })
   }
 }
