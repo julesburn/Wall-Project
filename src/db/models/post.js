@@ -1,13 +1,17 @@
 'use strict';
-
 module.exports = (sequelize, DataTypes) => {
-  const Post = sequelize.define('Post', {
-    title: DataTypes.STRING,
-    body: DataTypes.STRING
+  var Post = sequelize.define('Post', {
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    body: {
+      type: DataTypes.STRING,
+      allowNull: false
+    }
   }, {});
-
   Post.associate = function(models) {
-    // associations can be defined here
-  };
-  return Post;
+    //include associations here
+ };
+ return Post;
 };

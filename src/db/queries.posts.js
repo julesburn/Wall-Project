@@ -3,7 +3,7 @@ const Post = require("./models").Post;
 module.exports = {
 
   getAllPosts(callback){
-    return Post.all()
+    return Post.findAll()
 
     .then((posts) => {
       callback(null, posts);

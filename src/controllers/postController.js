@@ -11,5 +11,9 @@ module.exports = {
          res.render("posts/index", {posts});
        }
      })
-  }
+  },
+
+  new(req, res, next){
+    res.render("posts/new");
+  },
 }
