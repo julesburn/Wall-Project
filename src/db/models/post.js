@@ -8,10 +8,18 @@ module.exports = (sequelize, DataTypes) => {
     body: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
+    
   }, {});
   Post.associate = function(models) {
-    //include associations here
+    Post.belongsTo(models.User, {
+      foreignKey: "userId",
+      onDelete: "CASCADE"
+    });
  };
  return Post;
 };

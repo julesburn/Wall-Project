@@ -3,28 +3,41 @@ const server = require("../../src/server");
 const base = "http://localhost:3000/posts/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Post = require("../../src/db/models").Post;
+const User = require("../../src/db/models").User;
 
 describe("routes : posts", () => {
 
   beforeEach((done) => {
+    this.post;
+    this.user;
     sequelize.sync({force: true}).then((res) => {
 
-      Post.create({
-        title: "Test Post",
-        body: "Time for tests!"
+      User.create({
+        username: "SirJeanLuc",
+        email: "starman@tesla.com",
+        password: "Trekkie4lyfe",
       })
-       .then((post) => {
-         this.post = post;
-         done();
-       })
-       .catch((err) => {
-         console.log(err);
-         done();
-       });
+      .then((user) => {
+        this.user = user;
 
-     });
+        Post.create({
+          title: "The Best Post",
+          body: "This is the best post!",
+          userId: this.user.id
+        
+        }, {})
+        .then((post) => {
+          this.post = post;
+          done();
+        })
+        .catch((err) => {
+          console.log(err);
+          done();
+        });
+      })
+    });
+  });
 
-   });
 
   describe("GET /posts", () => {
 
@@ -33,7 +46,7 @@ describe("routes : posts", () => {
         expect(res.statusCode).toBe(200);
         expect(err).toBeNull();
         expect(body).toContain("Posts");
-        expect(body).toContain("Test Post");
+        expect(body).toContain("The Best Post");
         done();
       });
     });
@@ -49,28 +62,28 @@ describe("routes : posts", () => {
       });
     });
 
-    describe("POST /posts/create", () => {
-      const options = {
-        url: `${base}create`,
-        form: {
-          title: "The Best Post",
-          body: "This is the best post!"
-        }
-      };
 
-      it("should create a new post and redirect", (done) => {
+      describe("POST /posts/create", () => {
 
-
-        request.post(options,
-
-
-          (err, res, body) => {
-            Post.findOne({where: {title: "The Best Post"}})
-            .then((post) => {
-              expect(res.statusCode).toBe(303);
-              expect(post.title).toBe("The Best Post");
-              expect(post.body).toBe("This is the best post!");
-              done();
+        it("should create a new post and redirect", (done) => {
+          const options = {
+            url: `${base}/create`,
+            form: {
+              title: "Watching snow melt",
+              body: "Without a doubt my favoriting things to do besides watching paint dry!"
+            }
+          };
+          request.post(options,
+            (err, res, body) => {
+              if (err) {
+                console.log("This is the error: ", err)
+              }
+              Post.findOne({where: {title: "Watching snow melt"}})
+              .then((post) => {
+                expect(post).not.toBeNull();
+                expect(post.title).toBe("Watching snow melt");
+                expect(post.body).toBe("Without a doubt my favoriting things to do besides watching paint dry!");
+                done();
             })
             .catch((err) => {
               console.log(err);
@@ -134,7 +147,8 @@ describe("routes : posts", () => {
             url: `${base}${this.post.id}/update`,
             form: {
               title: "JavaScript Frameworks",
-              description: "There are a lot of them"
+              description: "There are a lot of them",
+              userId: this.user.id
             }
           };
           request.post(options,
